@@ -1,38 +1,53 @@
-.App {
-  text-align: center;
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Nunito Sans", sans-serif;
+}
+:root{
+    --background: linear-gradient(to bottom, #74beff,#0044cc);
+}
+input {
+    outline: none !important;
+    box-shadow: none !important;
+}
+button:focus, 
+input:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield; /* For Firefox */
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.form-wrapper {
+    transition: box-shadow 1.5s ease; /* Transition for box shadow */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.highlight {
+    box-shadow: 0 0 5px rgba(78, 96, 171, 0.5), 
+                0 0 15px rgba(124, 121, 209, 0.8); /* Highlight box shadow */
+    animation: pulse 1s infinite; /* Use the pulse animation */
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 5px rgba(78, 96, 171, 0.5), 
+                    0 0 15px rgba(124, 121, 209, 0.8);
+    }
+    50% {
+        box-shadow: 0 0 10px rgba(124, 121, 209, 0.8), 
+                    0 0 25px rgba(124, 121, 209, 0.5);
+    }
+    100% {
+        box-shadow: 0 0 5px rgba(78, 96, 171, 0.5), 
+                    0 0 15px rgba(124, 121, 209, 0.8);
+    }
 }
 
-.App-link {
-  color: #61dafb;
-}
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
