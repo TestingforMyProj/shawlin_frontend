@@ -28,10 +28,12 @@ const Header = () => {
   };
 
   return (
-    <div>
+    <>
       <nav className={`nav1 ${isSearchOpen ? "openSearch" : ""} ${isNavOpen ? "openNav" : ""} ${isScrolled ? 'scrolled' : ''}`}>
-        <i className="uil uil-bars navOpenBtn" onClick={openNav}></i>
-        <RouterLink className="navbar-brand" to="">Landio</RouterLink>
+        <i className="uil uil-bars navOpenBtn d-md-none" onClick={openNav}></i>
+        <RouterLink className="navbar-brand" to="">
+          <img alt="" src="assets/img/shawlin.png" className="" style={{ width: "110px" }}></img>
+        </RouterLink>
 
         <ul className="nav-links">
           <i className="uil uil-times navCloseBtn" onClick={closeNav}></i>
@@ -51,15 +53,13 @@ const Header = () => {
             <Link to="community" smooth={true} duration={50} onClick={closeNav}>Community</Link>
           </li>
         </ul>
-        {/* <button className="btn border-0" style={{ fontSize: "14px" }} type="submit"> */}
-          <span>
-            <a href="https://wa.me/+447918261080" target="_blank" rel="noopener noreferrer" className="">
-              <i class="ri-whatsapp-fill fs-4 align-middle text-success"></i>&nbsp;<span className="fw-bold text-dark">+447918261080</span>
-            </a>
-          </span>
-        {/* </button> */}
+        <span>
+          <a href="https://wa.me/+447918261080" target="_blank" rel="noopener noreferrer" className="">
+            <i className="ri-whatsapp-fill fs-4 align-middle header_wp"></i>&nbsp;<span className="fw-bold text-light" style={{ fontSize: "13px" }}>+44 7918 261080</span>
+          </a>
+        </span>
       </nav>
-    </div>
+    </>
   );
 };
 

@@ -1,13 +1,15 @@
 import axios from 'axios';
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Element } from 'react-scroll';
 import Slider from 'react-slick';
 import Swal from 'sweetalert2';
+import Loader from '../Pages/Loader';
 
 const Landio = () => {
   const formRef = useRef(null);
   const [highlight, setHighlight] = useState(false);
+  const [loading, setLoading] = useState(false); // Added loading state
 
   const handleScrollToForm = () => {
     if (formRef.current) {
@@ -66,6 +68,8 @@ const Landio = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Validation check for empty fields
     if (!formData.name || !formData.number || !formData.email) {
       Swal.fire({
         icon: 'error',
@@ -75,9 +79,11 @@ const Landio = () => {
       return;
     }
 
+    setLoading(true); // Set loading to true on submit
+
     try {
       // Send data to the backend
-      const response = await axios.post('http://localhost:4545/v1/form/create-form', {
+      const response = await axios.post('https://shawlin-backend.vercel.app/v1/form/create-form', {
         name: formData.name,
         phone: formData.number,
         email: formData.email,
@@ -107,6 +113,8 @@ const Landio = () => {
         title: 'Error',
         text: error.message,
       });
+    } finally {
+      setLoading(false); // Set loading to false after submission
     }
   };
 
@@ -157,61 +165,64 @@ const Landio = () => {
     <Element name='home'>
       <>
         {/* ======Choosing Sec start======= */}
-        <section className='container py-5'>
-          <div className='row'>
-            <div className='col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 align-items-center d-flex choosing_Sec'>
-              <div className=''>
-                <h1>Why Choose Us?</h1>
-                <p className='m-0 pb-3'><span className="text-success fs-4 align-middle">✔</span><strong> Coaches from Top Firms:</strong> Our expert coaches come from leading firms like JP Morgan, Morgan Stanley, and Deloitte, bringing real-world insights to help you succeed.</p>
-                <p className='m-0 pb-3'><span className="text-success fs-4 align-middle">✔</span><strong> Unlimited Support Until Satisfaction:</strong> We work with students one-on-one, offering unlimited revisions and personalized feedback until you're fully satisfied.</p>
-                <p className='m-0 pb-3'><span className="text-success fs-4 align-middle">✔</span><strong> Tailored to International Students:</strong> Our services are specially designed for international students, helping them navigate job markets in the UK, US, Canada, and Europe with confidence.</p>
+        <section className='bg_main'>
+          <div className='container py-5 text-light'>
+            <div className='row'>
+              <div className='col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 align-items-center d-flex choosing_Sec'>
+                <div className=''>
+                  <h1>Why Choose Us?</h1>
+                  <p className='m-0 pb-3'><span className="fs-4 align-middle" style={{ color: "lightgreen" }}>✔</span><strong> Coaches from Top Firms:</strong> Our expert coaches come from leading firms like JP Morgan, Morgan Stanley, and Deloitte, bringing real-world insights to help you succeed.</p>
+                  <p className='m-0 pb-3'><span className="fs-4 align-middle" style={{ color: "lightgreen" }}>✔</span><strong> Unlimited Support Until Satisfaction:</strong> We work with students one-on-one, offering unlimited revisions and personalized feedback until you're fully satisfied.</p>
+                  <p className='m-0 pb-3'><span className="fs-4 align-middle" style={{ color: "lightgreen" }}>✔</span><strong> Tailored to International Students:</strong> Our services are specially designed for international students, helping them navigate job markets in the UK, US, Canada, and Europe with confidence.</p>
+                </div>
               </div>
-            </div>
-            {/* ====FORM==== */}
-            <div className='col-lg-6 col-md-6 col-sm-12 col-12 d-flex justify-content-center align-items-center'
-              ref={formRef}>
-              <div className='form-wrapper'>
-                <form className={`contact-form ${highlight ? 'highlight' : ''}`} onSubmit={handleSubmit}>
-                  <div className='form-group'>
-                    <input
-                      type='text'
-                      id='name'
-                      name='name'
-                      className='form-control'
-                      placeholder='Name'
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
-                  <div className='form-group'>
-                    <input
-                      type='tel'
-                      id='number'
-                      name='number'
-                      className='form-control'
-                      placeholder='Phone Number'
-                      value={formData.number}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
-                  <div className='form-group'>
-                    <input
-                      type='email'
-                      id='email'
-                      name='email'
-                      className='form-control'
-                      placeholder='Email'
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
-                  <button type='submit' className='btn-submit fw-bold'>
-                    Talk To Expert
-                  </button>
-                </form>
+              {/* ====FORM==== */}
+              {loading && <Loader />}
+              <div className='col-lg-6 col-md-6 col-sm-12 col-12 d-flex justify-content-center align-items-center form_main'
+                ref={formRef}>
+                <div className='form-wrapper'>
+                  <form className={`contact-form ${highlight ? 'highlight' : ''}`} onSubmit={handleSubmit}>
+                    <div className='form-group'>
+                      <input
+                        type='text'
+                        id='name'
+                        name='name'
+                        className='form-control'
+                        placeholder='Name'
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </div>
+                    <div className='form-group'>
+                      <input
+                        type='tel'
+                        id='number'
+                        name='number'
+                        className='form-control'
+                        placeholder='Phone Number'
+                        value={formData.number}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </div>
+                    <div className='form-group'>
+                      <input
+                        type='email'
+                        id='email'
+                        name='email'
+                        className='form-control'
+                        placeholder='Email'
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </div>
+                    <button type='submit' className='btn-submit fw-bold'>
+                      Talk To Expert
+                    </button>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
@@ -222,21 +233,22 @@ const Landio = () => {
           <div className='row'>
             <div className='col-lg-3 col-md-3 align-items-center d-flex justify-content-center'>
               <div>
-                <h2 className='text-center fw-bold'>Featured In</h2>
+                <h2 className='text-center fw-bold title_color featuredin_sec'>Featured In</h2>
               </div>
             </div>
             <div className='col-lg-9 col-md-9'>
-              <div className="d-flex justify-content-between align-items-center">
-                <img alt="Brand 1" src="assets/img/brand-3.png" className="img-fluid scrolling-image" />
-                <img alt="Brand 2" src="assets/img/brand-2.png" className="img-fluid scrolling-image" />
-                <img alt="Brand 3" src="assets/img/brand-1.png" className="img-fluid scrolling-image" />
-                <img alt="Brand 4" src="assets/img/brand-4.png" className="img-fluid scrolling-image" />
-                <img alt="Brand 5" src="assets/img/brand-5.png" className="img-fluid scrolling-image" />
+              <div className="marquee">
+                <div className="d-flex justify-content-between align-items-center">
+                  <img alt="Brand 1" src="assets/img/brand-3.png" className="img-fluid scrolling-image" />
+                  <img alt="Brand 2" src="assets/img/brand-2.png" className="img-fluid scrolling-image" />
+                  <img alt="Brand 3" src="assets/img/brand-1.png" className="img-fluid scrolling-image" />
+                  <img alt="Brand 4" src="assets/img/brand-4.png" className="img-fluid scrolling-image" />
+                  <img alt="Brand 5" src="assets/img/brand-5.png" className="img-fluid scrolling-image" />
+                </div>
               </div>
             </div>
           </div>
         </section>
-
         {/* ======Featured Sec end======= */}
         {/* who we are Sec start */}
         <section className='container px_width'>
@@ -245,13 +257,13 @@ const Landio = () => {
               <div className="underline_verticaly"></div>
 
               <div>
-                <p>Unparalleled experience, proven results</p>
-                <h2>Who We Are</h2>
+                <p>Secure More Interview Spots!</p>
+                <h2 className='title_color'>Who We Are</h2>
               </div>
             </div>
             <div className='col-lg-7 col-md-7 col-sm-12 col-12 justify-content-center d-flex align-items-center info_main_Sec'>
               <div>
-                <p className='info_sec_p'>At Shawlin Solutions, we're passionate about helping international students and professionals achieve their career goals. Our team of experienced coaches, hailing from top firms like Morgan Stanley, Deloitte, Goldman Sachs, J.P. Morgan, and world-renowned universities like University of Florida and Imperial College London, offers personalized guidance to help you stand out in the competitive job market.
+                <p className='info_sec_p'>At <strong>Shawlin Solutions</strong>, we're passionate about helping international students and professionals achieve their career goals. Our team of experienced coaches, hailing from top firms like Morgan Stanley, Deloitte, Goldman Sachs, J.P. Morgan, and world-renowned universities like University of Florida and Imperial College London, offers personalized guidance to help you stand out in the competitive job market.
                   We create customized resumes, cover letters, and LinkedIn profiles that truly showcase your skills and experiences. Through our effective coaching techniques, we've assisted many people in getting more interviews and achieving their dream jobs.</p>
               </div>
             </div>
@@ -260,7 +272,7 @@ const Landio = () => {
         {/* who we are Sec end */}
         {/* ======Join Sec start======= */}
         <section className='container my-5 py-3'>
-          <h2 className='text-center fw-bold' style={{ wordSpacing: "3px" }}>How Our 1-1 Coaching Works?</h2>
+          <h2 className='text-center fw-bold title_color' style={{ wordSpacing: "3px" }}>How Our 1-1 Coaching Works?</h2>
           <div className="underline mb-3"></div>
           <div className='mx-auto d-block pt-3'>
             <div className='row coaching_Sec'>
@@ -350,7 +362,7 @@ const Landio = () => {
         {/* ======Services Sec start======= */}
         <Element name='services' className='element'>
           <section className='container my-5 py-3'>
-            <h2 className='text-center fw-bold'>Our Services</h2>
+            <h2 className='text-center fw-bold title_color'>Our Services</h2>
             <div className="underline mb-3"></div>
             <div className='row'>
               <div className='col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12'>
@@ -364,13 +376,13 @@ const Landio = () => {
                       <span className="check-mark">✔</span> Unlimited revisions with expert coaching.
                     </li>
                     <li className="feature-item">
-                      <span className="check-mark">✔</span> Tailor your CV and cover letter to beat recruiters and ATS.
+                      <span className="check-mark">✔</span> ATS optimize Resume and cover-letter
                     </li>
-                    <li className="feature-item inactive">
-                      <span className="inactive-check-mark">✔</span> Learn networking and cold-email strategies to stand out.
+                    <li className="feature-item">
+                      <span className="check-mark">✔</span> Learn networking and cold-email strategies to stand out.
                     </li>
-                    <li className="feature-item inactive">
-                      <span className="inactive-check-mark">✔</span> Keyword optimization to showcase your top skills.
+                    <li className="feature-item ">
+                      <span className="check-mark">✔</span> Keyword optimization to showcase your top skills.
                     </li>
                   </ul>
                   <Link to="https://buy.stripe.com/00g00Keje0BO1c4dR3" target="_blank">
@@ -391,10 +403,10 @@ const Landio = () => {
                       <span className="check-mark">✔</span> Work one-on-one with an expert coach
                     </li>
                     <li className="feature-item">
-                      <span className="check-mark">✔</span> Master CV tailoring and interview techniques
+                      <span className="check-mark">✔</span> Master Resume tailoring and interview techniques
                     </li>
-                    <li className="feature-item inactive">
-                      <span className="inactive-check-mark">✔</span> Optimized to bypass recruiters' screening and ATS filters
+                    <li className="feature-item">
+                      <span className="check-mark">✔</span> Optimized to bypass recruiters' screening and ATS filters
                     </li>
                   </ul>
                   <Link to="https://buy.stripe.com/cN200Ka2Ybgsf2UcMV" target="_blank">
@@ -414,11 +426,11 @@ const Landio = () => {
                     <li className="feature-item">
                       <span className="check-mark">✔</span> Work one-on-one with an expert coach
                     </li>
-                    <li className="feature-item inactive">
-                      <span className="inactive-check-mark">✔</span> Learn how to tailor your cover letter to stand out
+                    <li className="feature-item ">
+                      <span className="check-mark">✔</span> Learn how to tailor your cover letter to stand out
                     </li>
-                    <li className="feature-item inactive">
-                      <span className="inactive-check-mark">✔</span> Optimized to bypass recruiters' screening and ATS filters
+                    <li className="feature-item ">
+                      <span className="check-mark">✔</span> Optimized to bypass recruiters' screening and ATS filters
                     </li>
                   </ul>
                   <Link to="https://buy.stripe.com/14kdRAfni70cg6Y007" target="_blank">
@@ -442,8 +454,8 @@ const Landio = () => {
                     <li className="feature-item">
                       <span className="check-mark">✔</span> Learn effective networking and cold-emailing strategies
                     </li>
-                    <li className="feature-item inactive">
-                      <span className="inactive-check-mark">✔</span> Keyword-optimized to showcase your top skills and stand out in searches
+                    <li className="feature-item ">
+                      <span className="check-mark">✔</span> Keyword-optimized to showcase your top skills and stand out in searches
                     </li>
                   </ul>
                   <Link to="https://buy.stripe.com/14k28S3EA1FS3kc5ks" target="_blank">
@@ -451,13 +463,15 @@ const Landio = () => {
                   </Link>
                 </div>
               </div>
+              <p className='text-center fw-bold' style={{ letterSpacing: "0.5px" }}>
+              Once the payment is completed, our team will contact you to schedule a call with the coach based on their availability.</p>
             </div>
           </section>
         </Element>
         {/* ======Services Sec end======= */}
         {/* ======Budget Sec start======= */}
         <section className='container my-5 py-3'>
-          <h2 className='text-center fw-bold'>Have budget constraints?</h2>
+          <h2 className='text-center fw-bold title_color'>Have budget constraints?</h2>
           <p className='text-center' style={{ letterSpacing: "0.5px" }}>No problem, choose our non-coaching services</p>
           <div className="underline mb-3"></div>
           <div className='mx-auto d-block'>
@@ -470,16 +484,16 @@ const Landio = () => {
                   <p className="description">Resume</p>
                   <ul className="feature-list">
                     <li className="feature-item ">
-                      <span className="check-mark">✔</span> Up to 5 revisions for your CV
+                      <span className="check-mark">✔</span> Up to 5 revisions for your Resume
                     </li>
                     <li className="feature-item">
                       <span className="check-mark">✔</span> No coaching session – questionnaire-based process
                     </li>
-                    <li className="feature-item inactive">
-                      <span className="inactive-check-mark">✔</span> 3-5 day turnaround time
+                    <li className="feature-item ">
+                      <span className="check-mark">✔</span> 3-5 day turnaround time
                     </li>
-                    <li className="feature-item inactive">
-                      <span className="inactive-check-mark">✔</span> Optimized to bypass recruiters' screening and ATS filters
+                    <li className="feature-item ">
+                      <span className="check-mark">✔</span> Optimized to bypass recruiters' screening and ATS filters
                     </li>
                   </ul>
                   <Link to="https://buy.stripe.com/cN2cNw6QM84g4ogfZ8" target="_blank">
@@ -504,8 +518,8 @@ const Landio = () => {
                     <li className="feature-item">
                       <span className="check-mark">✔</span> 3-5 day turnaround time
                     </li>
-                    <li className="feature-item inactive">
-                      <span className="inactive-check-mark">✔</span> Highlights your distinct value to stand out to employers
+                    <li className="feature-item ">
+                      <span className="check-mark">✔</span> Highlights your distinct value to stand out to employers
                     </li>
                   </ul>
                   <Link to="https://buy.stripe.com/7sI00Keje98k5skaES" target="_blank">
@@ -526,11 +540,11 @@ const Landio = () => {
                     <li className="feature-item">
                       <span className="check-mark">✔</span> No coaching session – questionnaire-based process
                     </li>
-                    <li className="feature-item inactive">
-                      <span className="inactive-check-mark">✔</span> 3-5 day turnaround time
+                    <li className="feature-item ">
+                      <span className="check-mark">✔</span> 3-5 day turnaround time
                     </li>
-                    <li className="feature-item inactive">
-                      <span className="inactive-check-mark">✔</span> Keyword-optimized to showcase your top skills and stand out in searches
+                    <li className="feature-item ">
+                      <span className="check-mark">✔</span> Keyword-optimized to showcase your top skills and stand out in searches
                     </li>
                   </ul>
                   <Link to="https://buy.stripe.com/fZeeVEa2YesE3kccMX" target="_blank">
@@ -570,17 +584,62 @@ const Landio = () => {
         </div>
       </section> */}
         {/* ======video Sec end======= */}
+        {/* ======summary Sec start======= */}
+        <section className='container text-center content_sec my-5 px-5'>
+          <p>Not sure which is right for you? WhatsApp us and we'll be happy to help you - we're available 24/7.</p>
+          <p className='m-0'>WhatsApp us on <span>+44 7918 261080</span> or <span>chat now</span> with one of our friendly Resume Consultants, who'll work with you to find Resume that cloud land your perfect job.</p>
+        </section>
+        {/* ======summary Sec end======= */}
+        {/* ======Universities Sec start======= */}
+        <section className='container my-5'>
+          <h2 className='text-center fw-bold pt-5 title_color'>Our mentors are from top firms & universities</h2>
+          <div className="underline mb-4"></div>
+          <div className='row'>
+            <div className='col-lg-4 col-md-6 col-sm-6 col-12'>
+              <div className='univer_box'>
+                <img alt='' src='assets/img/universities1.jpeg' className='univer_img mx-auto d-block'></img>
+              </div>
+            </div>
+            <div className='col-lg-4 col-md-6 col-sm-6 col-12'>
+              <div className='univer_box'>
+                <img alt='' src='assets/img/universities2.jpeg' className='univer_img mx-auto d-block'></img>
+              </div>
+            </div>
+            <div className='col-lg-4 col-md-6 col-sm-6 col-12'>
+              <div className='univer_box'>
+                <img alt='' src='assets/img/universities3.jpeg' className='univer_img mx-auto d-block'></img>
+              </div>
+            </div>
+            <div className='col-lg-4 col-md-6 col-sm-6 col-12'>
+              <div className='univer_box'>
+                <img alt='' src='assets/img/universities4.jpeg' className='univer_img mx-auto d-block'></img>
+              </div>
+            </div>
+            <div className='col-lg-4 col-md-6 col-sm-6 col-12'>
+              <div className='univer_box'>
+                <img alt='' src='assets/img/universities5.jpeg' className='univer_img mx-auto d-block'></img>
+              </div>
+            </div>
+            <div className='col-lg-4 col-md-6 col-sm-6 col-12'>
+              <div className='py-3 univer_box'>
+                <img alt='' src='assets/img/universities6.jpeg' className='univer_img mx-auto d-block'></img>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ======Universities Sec end======= */}
         {/* ======Testimonial Sec start======= */}
         <Element name='testimonial'>
           <section className='container my-5 py-3'>
-            <h2 className='text-center fw-bold'>Testimonial</h2>
+            <h2 className='text-center fw-bold title_color'>Testimonial</h2>
             <div className="underline mb-4"></div>
             <div className='row coaching_Sec'>
               <div className='col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12'>
                 <div className="testimonial-card">
                   <div className="stars">★★★★★</div>
                   <span className="twitter-icon"><i className="ri-twitter-fill"></i></span>
-                  <p>After submitting over 70 applications and facing constant rejections, I was beginning to lose hope. That’s when I decided to seek help from Shawlin’s coaching service. The coach revamped my resume, cover letter, and LinkedIn profile, and within two weeks, I received three interview calls. I’m thrilled to say I’ve secured a position with a package of $110k! Their guidance made all the difference.</p>
+                  <p className='pt-3'>After submitting over 70 applications and facing constant rejections, I was beginning to lose hope. That’s when I decided to seek help from Shawlin’s coaching service. The coach revamped my resume, cover letter, and LinkedIn profile, and within two weeks, I received three interview calls. I’m thrilled to say I’ve secured a position with a package of $110k! Their guidance made all the difference.</p>
                   <div className="author">Anjali Malhotra</div>
                 </div>
               </div>
@@ -588,7 +647,7 @@ const Landio = () => {
                 <div className="testimonial-card">
                   <div className="stars">★★★★★</div>
                   <span className="twitter-icon"><i className="ri-twitter-fill"></i></span>
-                  <p>I was struggling to break into a consultant role and knew I needed to improve my CV and networking strategy. With Shawlin’s coaching, I not only enhanced my resume but also learned how to effectively network on LinkedIn. I managed to connect with an employee at the company I wanted to work for. She was impressed enough to refer me, and my resume was selected. The good news is I got the job!</p>
+                  <p className='pt-3'>I was struggling to break into a consultant role and knew I needed to improve my Resume and networking strategy. With Shawlin’s coaching, I not only enhanced my resume but also learned how to effectively network on LinkedIn. I managed to connect with an employee at the company I wanted to work for. She was impressed enough to refer me, and my resume was selected. The good news is I got the job!</p>
                   <div className="author">Anonymous</div>
                 </div>
               </div>
@@ -596,10 +655,10 @@ const Landio = () => {
                 <div className="testimonial-card">
                   <div className="stars">★★★★★</div>
                   <span className="twitter-icon"><i className="ri-twitter-fill"></i></span>
-                  <p>
+                  <p className='pt-3'>
                     Even with 10+ years of experience, I was constantly getting rejected without making it to the interview stage.
                     Frustrated and unsure of what to do next, I decided to work with Shawlin’s coaching service. The coach helped me
-                    refine my CV, cover letter, and LinkedIn profile, and the results were immediate.
+                    refine my Resume, cover letter, and LinkedIn profile, and the results were immediate.
                     {showMore ? (
                       <>
                         Within a month, I received multiple interview offers, and now I’m working as a Product Manager with a £45,000 package.
@@ -631,7 +690,7 @@ const Landio = () => {
         {/* ======Testimonial Sec end======= */}
         {/* ======Reviews Sec start======= */}
         <section className='container my-5 py-3'>
-          <h2 className='text-center fw-bold'>Client Reviews</h2>
+          <h2 className='text-center fw-bold title_color'>Client Reviews</h2>
           <div className="underline mb-4"></div>
           <div className='row position-relative'>
             <div className='py-2'>
@@ -660,7 +719,7 @@ const Landio = () => {
         {/* ======FQS Sec start======= */}
         <Element name='faqs'>
           <section className='container my-5 py-3'>
-            <h2 className='text-center fw-bold'>Frequently Asked Questions:</h2>
+            <h2 className='text-center fw-bold title_color'>Frequently Asked Questions:</h2>
             <div className="underline mb-4"></div>
             <div className='row'>
               <div className='faq-container'>
@@ -709,22 +768,22 @@ const faqData = [
   },
   {
     question: "How is your 1-1 coaching different from your non-coaching services?",
-    answer: 'Our 1-1 coaching provides personalized guidance from industry professionals to help you craft and refine your CV, cover letter, and LinkedIn profile. Our coaches carefully review the details of your experiences and incorporate them into your applications. For our non-coaching service, we offer the same high-quality service, but it won’t be as tailored to specific jobs you want to apply for.',
+    answer: 'Our 1-1 coaching provides personalized guidance from industry professionals to help you craft and refine your Resume, cover letter, and LinkedIn profile. Our coaches carefully review the details of your experiences and incorporate them into your applications. For our non-coaching service, we offer the same high-quality service, but it won’t be as tailored to specific jobs you want to apply for.',
   },
   {
     question: 'Do you work with international students and professionals?',
     answer: 'Absolutely! We specialize in helping international students and professionals, particularly those based in the UK, US, Canada, and Europe.',
   },
   {
-    question: 'How long does it take to get my CV, cover letter, or LinkedIn profile ready?',
-    answer: 'For 1-1 coaching, the timeline varies based on your progress. However, if you choose our non-coaching service, we can typically complete your CV, cover letter, or LinkedIn profile within 3-5 business days.',
+    question: 'How long does it take to get my Resume, cover letter, or LinkedIn profile ready?',
+    answer: 'For 1-1 coaching, the timeline varies based on your progress. However, if you choose our non-coaching service, we can typically complete your Resume, cover letter, or LinkedIn profile within 3-5 business days.',
   },
   {
     question: 'Do you offer installment payment options for your 1-1 coaching services?',
     answer: 'Yes, we offer a convenient two-installment payment plan. You can pay half of the fee before the first session, and the remaining half before the second session. This helps make our 1-1 coaching services more affordable and manageable.',
   },
   {
-    question: 'What if I need revisions after the CV, cover letter, or LinkedIn profile is done?',
+    question: 'What if I need revisions after the Resume, cover letter, or LinkedIn profile is done?',
     answer: 'Your satisfaction is our priority. We offer five rounds of free revisions for non-coaching services and unlimited revisions for our 1-1 coaching sessions to ensure you are fully satisfied.',
   },
   {
@@ -732,19 +791,19 @@ const faqData = [
     answer: 'Our coaches come from various industries, and we match you with a professional who understands the specific requirements of your field, whether it’s healthcare, IT, business, or other sectors.',
   },
   {
-    question: 'How do you ensure that my CV and cover letter are tailored to my career goals?',
-    answer: 'During 1-1 coaching, we work closely with you to understand your career goals, skills, and experiences, creating a customized CV and cover letter that align with your objectives and the jobs you want to apply for.',
+    question: 'How do you ensure that my Resume and cover letter are tailored to my career goals?',
+    answer: 'During 1-1 coaching, we work closely with you to understand your career goals, skills, and experiences, creating a customized Resume and cover letter that align with your objectives and the jobs you want to apply for.',
   },
   {
-    question: 'Can you help with job-specific CVs and cover letters?',
-    answer: 'Yes, we can create tailored CVs and cover letters for specific job applications.',
+    question: 'Can you help with job-specific Resumes and cover letters?',
+    answer: 'Yes, we can create tailored Resumes and cover letters for specific job applications.',
   },
   {
     question: 'What if I have no prior work experience?',
-    answer: 'Whether you’re a student or career changer with limited experience, we will help highlight your skills, education, and any relevant projects or internships to make your CV and cover letter stand out.',
+    answer: 'Whether you’re a student or career changer with limited experience, we will help highlight your skills, education, and any relevant projects or internships to make your Resume and cover letter stand out.',
   },
   {
-    question: 'What happens if I’m not satisfied with the final CV, cover letter, or LinkedIn profile?',
+    question: 'What happens if I’m not satisfied with the final Resume, cover letter, or LinkedIn profile?',
     answer: 'For 1-1 coaching clients, we offer ongoing revisions until you’re happy with the results. For our budget service, we offer one round of revisions at no additional cost.',
   },
 ];

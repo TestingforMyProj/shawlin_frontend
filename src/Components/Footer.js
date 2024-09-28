@@ -95,10 +95,10 @@ const Footer = () => {
       <Element name='community'>
         <section className='container-fluid footer_bg pt-5'>
           <div className='row text-center'>
-            <h2>Join our growing community!</h2>
+            <h2 className='title_color'>Secure More Interview Spots!</h2>
             <div className='pt-3'>
               <Link to="https://www.instagram.com/shawlin_solutions/"><i class="ri-instagram-line"></i></Link>
-              <Link to=""><i class="ri-facebook-fill"></i></Link>
+              <Link to="https://www.facebook.com/profile.php?id=61561965557895"><i class="ri-facebook-fill"></i></Link>
             </div>
             {/* <p>Privacy policy</p> */}
             <div className='pt-5'>

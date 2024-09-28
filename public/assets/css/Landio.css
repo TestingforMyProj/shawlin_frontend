@@ -1,3 +1,17 @@
+.bg_main {
+    background-image: url('../img/shawlin_solution_banner.png');
+    background-size: cover;
+}
+
+.title_color {
+    background:var(--background);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+  }
+  
+
 .choosing_Sec p {
     font-size: 15px;
     letter-spacing: 0.5px;
@@ -29,16 +43,61 @@
     display: flex;
     flex-direction: column;
     gap: 25px;
-    box-shadow: 0px 0px 2px #91aec8;
+    box-shadow: 0px 0px 2px #bad9f1;
     border-radius: 10px;
     padding: 50px;
     width: 100%;
-    /* Form will take 100% of the wrapper */
-    max-width: 100%;
-    /* Ensures no overflow */
+    background-color: #fff;
+    max-width: 88%;
+}
+
+.form-control {
+    background-color: #ececec !important;
+    /* Change this to the desired background color */
+    border: 1px solid #ccc;
+    /* Optional: Adjust border color */
+    padding: 10px;
+    /* Optional: Add padding for better UX */
+    color: #333;
+    /* Optional: Adjust text color */
+    transition: background-color 0.3s ease;
+    /* Optional: Smooth transition on hover/focus */
+}
+
+.form-control:focus {
+    background-color: #fff !important;
+    /* Change background color on focus */
+    border-color: #2498b3;
+    /* Optional: Change border color on focus */
+    outline: none;
+    /* Remove default outline on focus */
 }
 
 
+.content_sec {
+    /* background-image: url('../img/gradient.jpg');
+    background-size: cover; */
+    background: var(--background);
+    padding: 50px 20px;
+    color: #fff;
+    border-radius: 10px;
+}
+
+.content_sec p {
+    letter-spacing: 0.8px;
+    font-size: 16px;
+    text-align: justify;
+}
+
+.content_sec p span {
+    /* background: var(--background); */
+    /* -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; */
+    color: transparent;
+    font-weight: 900;
+    font-size: 17px;
+    color: #92f098 !important;
+}
 
 .form-group {
     display: flex;
@@ -193,7 +252,7 @@
 .feature-item {
     font-size: 13px;
     margin-bottom: 10px;
-    letter-spacing: 0.6px;
+    letter-spacing: 0px;
 }
 
 .feature-item.inactive {
@@ -353,6 +412,10 @@
     height: 90%;
 }
 
+.testimonial-card p {
+    text-align: justify;
+}
+
 .stars {
     color: #00b894;
     margin-bottom: 10px;
@@ -479,7 +542,8 @@ div:where(.swal2-container) .swal2-html-container {
 
 .info_sec_p {
     font-size: 16px;
-    letter-spacing: 0.8px;
+    /* letter-spacing: 0.2px; */
+    text-align: justify;
     /* width: 38vw !important; */
 }
 
@@ -547,20 +611,93 @@ div:where(.swal2-container) .swal2-html-container {
     height: auto;
 }
 
-.expert_btn{
+.expert_btn {
     padding: 10px 80px;
     border-radius: 5px;
     background: #fff;
-    color:#236e45;
+    color: #198754;
     font-size: 16px;
     cursor: pointer;
-    border: 1px solid #236e45;
+    border: 1px solid #198754;
     letter-spacing: 0.8px;
 }
-.expert_btn:hover{
-    background:#236e45;
+
+.expert_btn:hover {
+    background: #236e45;
     color: #fff;
     border: none;
+}
+
+/* Container for the images */
+.univer_box {
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
+    /* Better shadow */
+    border-radius: 10px;
+    /* Smooth corners */
+    height: 200px;
+    /* Fixed height for all boxes */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Centers image inside */
+    transition: transform 0.3s ease-in-out;
+    /* Animation for hover effect */
+    overflow: hidden;
+    /* Ensure no overflow from images */
+    margin: 10px 0px;
+}
+
+/* Image styles */
+.univer_img {
+    width: 70%;
+    /* Fix image size */
+    height: auto;
+    object-fit: cover;
+    /* Keep aspect ratio */
+    transition: transform 1s ease-in-out;
+    /* Smooth zoom on hover */
+}
+
+/* Hover effects */
+.univer_box:hover {
+    transform: translateY(-1px);
+}
+
+.univer_box:hover .univer_img {
+    transform: scale(1.1);
+}
+
+
+.marquee {
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+}
+
+.marquee .d-flex {
+    display: inline-block;
+    animation: marquee 7s linear infinite;
+    /* Adjust duration as needed */
+}
+
+.form_main{
+    padding-left: 20px;
+}
+@keyframes marquee {
+    0% {
+        transform: translateX(100%);
+        /* Start off the right */
+    }
+
+    100% {
+        transform: translateX(-100%);
+        /* End off the left */
+    }
+}
+
+.scrolling-image {
+    margin: 0 15px;
+    /* Adjust spacing between images */
 }
 
 
@@ -598,6 +735,13 @@ div:where(.swal2-container) .swal2-html-container {
     .coaching_Sec {
         padding: 0px !important;
     }
+
+    .contact-form {
+        max-width: 100% !important;
+    }
+    .form_main{
+        padding-left: 0 !important;
+    }
 }
 
 @media(max-width:992px) {
@@ -625,9 +769,12 @@ div:where(.swal2-container) .swal2-html-container {
         margin: auto;
         display: block;
     }
+    .contact-form {
+        max-width: 100% !important;
+    }
 }
 
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
     .choosing_Sec p {
         width: 45vw !important;
     }
@@ -656,6 +803,9 @@ div:where(.swal2-container) .swal2-html-container {
     .form-wrapper {
         width: 100% !important;
     }
+    .form_main{
+        padding: 0 20px !important;
+    }
 }
 
 @media (max-width: 480px) {
@@ -670,4 +820,18 @@ div:where(.swal2-container) .swal2-html-container {
     .info_sec_p {
         width: 90vw !important;
     }
+    .form_main{
+        padding: 0 20px !important;
+    }
+    .featuredin_sec{
+        padding-bottom: 18px !important;
+    }
+    .content_sec{
+        width: 95% !important;
+    }
+    /* .whatsapp-logo{
+        bottom: 39px !important;
+        right: -141px !important;
+        width: 50% !important;
+    } */
 }

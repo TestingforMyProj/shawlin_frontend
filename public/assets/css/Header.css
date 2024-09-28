@@ -51,8 +51,8 @@
   align-items: center !important;
   justify-content: space-between !important;
   padding: 10px 20px;
-  background-color: #fff;
-  border-bottom: 1px solid #eaeaea;
+  background: var(--background);
+  /* border-bottom: 1px solid #eaeaea; */
   position: sticky;
   top: 0;
   z-index: 9999;
@@ -65,8 +65,8 @@
   left: 0;
   right: 0;
   z-index: 9999;
-  box-shadow: rgb(187, 187, 187) 0px 2px 0.5rem;
-  background-color: #fff;
+  box-shadow: rgb(83, 157, 221) 0px 2px 0.5rem;
+  background: var(--background);
   animation: slideDown 0.8s ease-in-out;
 }
 
@@ -82,7 +82,7 @@
 }
 
 a {
-  color: #353842 !important;
+  color: #fff !important;
   text-decoration: none !important;
 }
 
@@ -161,7 +161,8 @@ a {
   text-decoration: none;
   color: #353842;
   font-size: 15px;
-  padding-bottom: 29px; /* Adjust as needed */
+  padding-bottom: 29px;
+  /* Adjust as needed */
   transition: color 0.8s ease;
   cursor: pointer;
 }
@@ -171,11 +172,13 @@ a {
   content: "";
   position: absolute;
   left: 0;
-  bottom: 0; /* Set it to touch the bottom */
+  bottom: 0;
+  /* Set it to touch the bottom */
   width: 0;
   height: 3px;
   border-radius: 20px;
-  background:var(--background); /* Bottom line color */
+  background: var(--background);
+  /* Bottom line color */
   transition: width 0.8s ease;
 }
 
@@ -184,6 +187,13 @@ a {
   width: 100%;
 }
 
+.navbar-brand {
+  margin-right: 92px !important;
+}
+
+.header_wp {
+  color: #28df8a;
+}
 
 /* responsive */
 @media screen and (max-width: 1160px) {
@@ -196,14 +206,35 @@ a {
   }
 }
 
+@media screen and (max-width: 1024px) {
+  .nav1 {
+    padding: 15px 12px !important;
+  }
+
+  ul {
+    padding-left: 0rem !important;
+  }
+  .navbar-brand{
+    margin-right: 0px !important;
+  }
+}
+
 @media screen and (max-width: 950px) {
   .nav1 {
     padding: 15px 50px;
   }
+}
 
-  .nav1 .search-box {
-    right: 100px;
-    max-width: 400px;
+@media screen and (max-width: 820px) {
+  .nav1 {
+    padding: 15px 12px !important;
+  }
+
+  ul {
+    padding-left: 0rem !important;
+  }
+  .navbar-brand{
+    margin-right: 0px !important;
   }
 }
 
